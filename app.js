@@ -24,3 +24,14 @@ app.listen(process.env.PORT, () => {
     mongoose.connect('mongodb://127.0.0.1:27017/test')
         .then(() => console.log('Connected!')); 
 });
+
+
+// fichas: async (res, req) => {
+//     const { id_aprendiz } = req.params
+//     try {
+//         const existe = await bitacora.findOne({ id_aprendiz })
+//         if (existe) {
+//             throw new Error('id ya existente')
+//         }
+//     }catch(error){res.status(404).json({message:"no se encontro el aprendiz"})}
+// }

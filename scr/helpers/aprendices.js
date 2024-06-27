@@ -1,13 +1,21 @@
 const Aprendices = require('../modelos/Aprendices')
+const Fichas = require('./../Models/Fichas')
 
 const aprendicesHelper = {
-    fichas: async (res, req) => {
-        const { id_ficha } = req.params
-        try {
-            const existe = await Aprendices.findOne({ id_ficha })
-            if (existe) {
-                throw new Error('id ya existente')
+    existeAprendizID: async (documento, req) => {
+        const existe = await Aprendices.findOne({ documento });
+        if (!existe) {
+            throw new Error(`El aprendiz con el documento ${documento} no existe`);
+        }
+        // req.aprendizbd = existe;
+    },
+
+    existeCodigoFicha: async (id_ficha, req) => {
+        const existe = await Fichas.findOne({ id_ficha });
+        if (!existe) {
+            throw new Error(`La ficha con el id ${id_ficha} no existe`);
             }
-        }catch(error){res.status(404).json({message:"no se encontro el aprendiz"})}
     }
 }
+
+module.exports={aprendicesHelper}
