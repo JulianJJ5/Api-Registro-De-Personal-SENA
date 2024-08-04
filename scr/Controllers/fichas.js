@@ -3,7 +3,7 @@ const Fichas = require('../Models/Fichas')
 // CRUIA
 
 const httpFichas = {
-    getListarTodo: async (req, ref) => {
+    getListarTodo: async (req, res) => {
         try {
             const fichas = await Fichas.find()
             res.json(fichas)
@@ -12,10 +12,10 @@ const httpFichas = {
         }
     },
 
-    getListarPorCodigo: async (req, ref) => {
-        const { codigo } = req.params
+    getListarPorId: async (req, res) => {
+        const _id = req.params.id
         try {
-            const fichas = await Fichas.find({ codigo });
+            const fichas = await Fichas.findById(_id);
             res.json(fichas)
         } catch (error) {
             res.json({ message: error.message })
@@ -36,9 +36,9 @@ const httpFichas = {
     },
 
     putActualizarFicha: async (req, ref) => {
-        const { codigo } = req.params
+        const _id = req.params.id
         try {
-            const fichaActualizada = await Fichas.findByIdAndUpdate(codigo, req.body, { new: true });
+            const fichaActualizada = await Fichas.findByIdAndUpdate(_id, req.body, { new: true });
             res.json(fichaActualizada)
         } catch (error) {
             res.json({ message: message.error })
@@ -46,9 +46,9 @@ const httpFichas = {
     },
 
     putDesactivarFichas: async (req, res) => {
-        const { codigo } = req.params
+        const id = req.params.id
         try {
-            const ficha = await Fichas.findByIdAndUpdate(codigo, {estado: 0})
+            const ficha = await Fichas.findByIdAndUpdate(id, {estado: 0})
             res.json(ficha)
         } catch (error){
             res.json({ message: error.message})
@@ -56,9 +56,9 @@ const httpFichas = {
     },
 
     putActivarFichas: async (req, res) => {
-        const { codigo } = req.params
+        const _id = req.params.id
         try {
-            const ficha = await Fichas.findByIdAndUpdate(codigo, {estado: 1})
+            const ficha = await Fichas.findByIdAndUpdate(_id, {estado: 1})
             res.json(ficha)
         } catch (error) {
             res.json({ message: error.message})

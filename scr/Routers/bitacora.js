@@ -7,7 +7,7 @@ const router = Router()
 
 router.get('/listartodoentrefechas', httpBitacora.getListarTodoEntreFechas);
 router.get('/listarporfichaentrefechas/:codigo',[
-    check('documento').custom(aprendicesHelper.existeCodigoFicha),
+    check('documento').custom(bitacoraHelper.existeCodigoFicha),
     validarCampos
 ], httpBitacora.getListarPorFichaEntreFechas);
 router.get('/listarporaprendizentrefechas/:id',[

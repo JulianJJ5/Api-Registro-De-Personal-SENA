@@ -2,11 +2,12 @@ const { Router } = require(`express`);
 const { check } = require(`express-validator`);
 const { validarCampos } = require(`./../middlewares/validar-campos`);
 const { fichasHelper } = require(`./../helpers/fichas.js`);
+const { aprendicesHelper } = require(`./../helpers/aprendices.js`);
 const { httpFichas } = require(`./../Controllers/fichas.js`);
 const router = Router()
 
 router.get('/listartodo', httpFichas.getListarTodo);
-router.get('/listarporcodigo/:id', httpFichas.getListarPorCodigo);
+router.get('/listarporid/:id', httpFichas.getListarPorId);
 
 router.post('/crearficha',[
     check('codigo', 'El codigo solo debe contener caracteres numericos').isNumeric(),
@@ -16,9 +17,9 @@ router.post('/crearficha',[
     check('nombre')
 ], httpFichas.postCrearFicha);
 
-router.put('/actualizarficha', httpFichas.putActualizarFicha);
-router.put('/activarficha', httpFichas.putActivarFichas);
-router.put('/desactivarficha', httpFichas.putDesactivarFichas);
+router.put('/actualizarficha/:id', httpFichas.putActualizarFicha);
+router.put('/activarficha/:id', httpFichas.putActivarFichas);
+router.put('/desactivarficha/:id', httpFichas.putDesactivarFichas);
 
 
 module.exports = router

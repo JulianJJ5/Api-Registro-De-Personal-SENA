@@ -40,6 +40,8 @@ const httpAprendiz = {
         const aprendiz = new Aprendices({
             documento: req.body.documento,
             nombre: req.body.nombre,
+            telefono: req.body.telefono,
+            email: req.body.email,
             id_ficha: req.body.id_ficha
         });
         try {

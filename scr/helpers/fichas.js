@@ -1,11 +1,11 @@
 const Fichas = require('../Models/Fichas.js')
 
 const FichasHelper = {
-    Codigo: async (res, req) => {
+    existeFichaId: async (res, req) => {
+        const _id = req.params.id
         try {
-            const existe = await Fichas.findOne({ codigo })
-            if (existe)
-                return res.status(400).json({ msg: 'El codigo ya existe' })
+            const existe = await Fichas.findOne({ _id })
+            res.json({ existe })
         } catch (error) {
             res.status(400).json({ error: error.message })
         }

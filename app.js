@@ -2,12 +2,12 @@ const express=require('express')
 const cors =require('cors')
 const mongoose = require('mongoose')
 require('dotenv').config()
-const Usuarios = require('./scr/Routers/usuarios')
-const Fichas = require('./scr/Routers/fichas')
-const Aprendices = require('./scr/Routers/aprendices') 
-const Bitacoras = require('./scr/Routers/bitacora')
+const Usuarios = require('./scr/Routers/usuarios.js')
+const Fichas = require('./scr/Routers/fichas.js')
+const Aprendices = require('./scr/Routers/aprendices.js') 
+const Bitacoras = require('./scr/Routers/bitacora.js')
 
-const app= express()
+const app = express()
 
 
 app.use(cors())
@@ -21,7 +21,7 @@ app.use('/api/bitacoras', Bitacoras)
 
 app.listen(process.env.PORT, () => {
     console.log(`Servidor escuchando en el puerto ${process.env.PORT}`);
-    mongoose.connect('mongodb://127.0.0.1:27017/test')
+    mongoose.connect('mongodb://127.0.0.1:27017/registroDeAsistencia')
         .then(() => console.log('Connected!')); 
 });
 

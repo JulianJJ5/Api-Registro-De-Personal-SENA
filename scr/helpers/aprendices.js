@@ -1,13 +1,12 @@
-const Aprendices = require('../modelos/Aprendices')
-const Fichas = require('./../Models/Fichas')
+const Aprendices = require('../Models/Aprendices.js')
+const Fichas = require('./../Models/Fichas.js')
 
 const aprendicesHelper = {
-    existeAprendizID: async (documento, req) => {
+    existeAprendizID: async (documento) => {
         const existe = await Aprendices.findOne({ documento });
         if (!existe) {
-            throw new Error(`El aprendiz con el documento ${documento} no existe`);
+            throw new Error(`El aprendiz con el documento ${documento} ya existe`, existe);
         }
-        // req.aprendizbd = existe;
     },
 
     existeCodigoFicha: async (id_ficha, req) => {
@@ -18,4 +17,4 @@ const aprendicesHelper = {
     }
 }
 
-module.exports={aprendicesHelper}
+module.exports = {aprendicesHelper}

@@ -1,4 +1,6 @@
 const Usuarios = require('../Models/Usuarios.js')
+const bcryptjs = require("bcryptjs")
+const {generarJWT} = require ("../middlewares/validarJWT")
 //CRUDAI
 const httpUsuarios = {
     getListarTodo: async (req, res) => {
@@ -10,34 +12,72 @@ const httpUsuarios = {
         }
     },
 
-    postCrearUsuario: async (req, ref) => {
-        const usuario = new Usuarios({
-            email: req.body.email,
-            contrasena: req.body.contrasena,
-            nombre: req.body.nombre
-        })
+    postCrearUsuario: async (req, res) => {
         try{
-            const nuevoUsuario = usuario.save()
-            res.json(nuevoUsuario)
+            const { email, contrasena, nombre } = req.body;
+            const usuario = new Usuarios({ email, contrasena, nombre });
+            const salt = bcryptjs.genSaltSync(10);
+            usuario.contrasena = bcryptjs.hashSync(contrasena, salt);
+            await usuario.save()
+            res.json(usuario)
+
         } catch (error) {
             res.json({ message: error.message })
         }
     },
 
+    postLoginUsuario: async (req, res) => {
+        const { email, contrasena } = req.body;
+        try {
+            const user = await Usuarios.findOne({ email })
+            if (!user) {
+                return res.status(401).json({
+                    msg: "Usuario / Password no son correctos1"
+                })
+            }
+
+            if (user.estado === 0) {
+                return res.status(401).json({
+                    msg: "Usuario / Password no son correctos2"
+                })
+            }
+
+            const validPassword = bcryptjs.compareSync(contrasena, user.contrasena);
+            if (!validPassword) {
+                return res.status(401).json({
+                    msg: "Usuario / Password no son correctos"
+                }); 
+                
+            }
+
+            const token = await generarJWT(user._id);
+
+            res.json({
+                usuario: user,
+                token
+            })
+        } catch (error) {
+            return res.json({ message: error.message })
+        }
+    },
+
     putActualizarUsuario: async (req, res) => {
-        const { email } = req.params
+        const { _id } = req.params
         try{
-            const usuarioActualizado = await Usuarios.findByIdAndUpdate(email, req.body);
-            res.json({usuarioActualizado})
+            const usuarioActualizado = await Usuarios.findByIdAndUpdate(_id, req.body);
+            if (!usuarioActualizado) {
+                return res.status(404).json({ message: 'Usuario no encontrado' });
+            }
+            res.json({ usuarioActualizado });
         } catch (error) {
             res.json({ message: error.message})
         }
     },
 
     putDesactivarUsuario: async (req, res) => {
-        const { email } = req.params
+        const { id } = req.params
         try{
-            const usuarioDesactivado = await Usuarios.findByIdAndUpdate(email, req.body);
+            const usuarioDesactivado = await Usuarios.findByIdAndUpdate(id, {estado: 0});
             res.json(usuarioDesactivado)
         } catch (error) {
             res.json({ message: error.message })

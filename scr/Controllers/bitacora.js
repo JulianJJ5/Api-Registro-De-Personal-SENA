@@ -1,4 +1,4 @@
-const Bitacoras = require('../Models/Bitacoras.js')
+const Bitacoras = require('../Models/Bitacora.js')
 const Aprendices = require('../Models/Aprendices.js');
 
 const httpBitacora = {
