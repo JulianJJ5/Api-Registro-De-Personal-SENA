@@ -22,7 +22,7 @@ router.get('/listarporid/:id', [
 
 router.post('/crearaprendiz',[
     check('documento', 'El documento es obligatorio').notEmpty(),
-    check('documento').custom(aprendicesHelper.existeCodigoFicha),
+    check('id_ficha').custom(aprendicesHelper.existeCodigoFicha),
     check('nombre', 'El nombre es obligatorio').notEmpty(),
     check('id_ficha', 'La ficha a la que pertenece el aprendiz es obligatoria').notEmpty(),
     validarCampos
@@ -40,14 +40,12 @@ router.put('/actualizaraprendiz/:id',[
 router.put('/activaraprendiz/:id', [
     check('id', 'El ID no es valido').isMongoId(),
     check('id', 'El ID es obligatorio').notEmpty(),
-    check('id', 'El ID solo debe contener caracteres numéricos').isNumeric(),
     validarCampos
 ], httpAprendiz.putActivarAprendiz);
 
 router.put('/desactivaraprendiz/:id', [
     check('id', 'El ID no es valido').isMongoId(),
     check('id', 'El ID es obligatorio').notEmpty(),
-    check('id', 'El ID solo debe contener caracteres numéricos').isNumeric(),
     validarCampos
 ], httpAprendiz.putDesactivarAprendiz);
 

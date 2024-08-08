@@ -14,7 +14,7 @@ const httpUsuarios = {
 
     postCrearUsuario: async (req, res) => {
         try{
-            const { email, contrasena, nombre } = req.body;
+            const { nombre, email, contrasena } = req.body;
             const usuario = new Usuarios({ email, contrasena, nombre });
             const salt = bcryptjs.genSaltSync(10);
             usuario.contrasena = bcryptjs.hashSync(contrasena, salt);
@@ -85,9 +85,9 @@ const httpUsuarios = {
     },
 
     putActivarUsuario: async (req, res) => {
-        const { email } = req.params
+        const { id } = req.params
         try{
-            const usuarioActivado = await Usuarios.findByIdAndUpdate(email, req.params);
+            const usuarioActivado = await Usuarios.findByIdAndUpdate(id, {estado: 1});
             res.json({usuarioActivado})
         } catch (error) {
             res.json({ message: error.message})
