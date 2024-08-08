@@ -24,7 +24,6 @@ router.post('/crearaprendiz',[
     check('documento', 'El documento es obligatorio').notEmpty(),
     check('documento').custom(aprendicesHelper.existeCodigoFicha),
     check('nombre', 'El nombre es obligatorio').notEmpty(),
-    check('estado', 'El estado solo debe contener caracteres numericos').isNumeric(),
     check('id_ficha', 'La ficha a la que pertenece el aprendiz es obligatoria').notEmpty(),
     validarCampos
 ], httpAprendiz.postCrearAprendiz);

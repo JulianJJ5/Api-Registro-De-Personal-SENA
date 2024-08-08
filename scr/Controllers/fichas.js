@@ -28,8 +28,8 @@ const httpFichas = {
             nombre: req.body.nombre
         });
         try {
-            const nueva_Ficha = await ficha.save();
-            res.json(nueva_Ficha)
+            const nuevaFicha = await ficha.save();
+            res.json(nuevaFicha)
         } catch (error) {
             res.json({ message: error.message })
         }
